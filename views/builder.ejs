@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script/post.js" defer></script>
+    <%- include('link') %>
+</head>
+<body>
+    
+<!-- Inclusion du menu -->
+<%- include('menu') %>
+
+<!-- Contenu de votre page home -->
+<div class="container">
+    <h2>Crée les tickets de mon événement :</h2>
+    <form id="ticket-form">
+        <label for="count">Nombre de tickets à générer :</label>
+        <input type="number" id="count" name="count" min="1" required><br>
+
+        <label for="event">Événement :</label>
+        <input type="text" id="event" name="event" required><br>
+
+        <label for="structure">Structure :</label>
+        <input type="text" id="structure" name="structure" required><br>
+
+        <label for="adresse">Adresse :</label>
+        <input type="text" id="adresse" name="adresse" required><br>
+
+        <label for="code_postal_ville">Code Postal et Ville :</label>
+        <input type="text" id="code_postal_ville" name="code_postal_ville" required><br>
+
+        <label for="placement">Placement :</label>
+        <input type="text" id="placement" name="placement" required><br>
+
+        <!-- Les autres champs à ajouter -->
+
+        <button type="submit">Générer</button>
+    </form>
+</div>
+
+
+<!-- Inclusion du footer -->
+<%- include('footer') %>
+
+</body>
+</html>

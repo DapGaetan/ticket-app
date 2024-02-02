@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script/get.js" defer></script>
+    <script src="script/patch.js" defer></script>
+    <script src="script/delete.js" defer></script>
+    <%- include('link') %>
+</head>
+<body>
+    
+<!-- Inclusion du menu -->
+<%- include('menu') %>
+
+<div class="wrapper">
+    <div class="event-wrapper">
+        <h2>Liste des Événements :</h2>
+        <ul id="event-list"></ul>
+    </div>
+
+    <div class="ticket-wrapper">
+        <h2>Tickets des Événement :</h2>
+        <ul id="ticket-list"></ul>
+    </div>
+</div>
+
+
+<!-- Inclusion du footer -->
+<%- include('footer') %>
+
+</body>
+</html>

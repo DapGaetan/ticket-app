@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script/get.js" defer></script>
+    <script src="script/patch.js" defer></script>
+    <script src="script/delete.js" defer></script>
+    <%- include('link') %>
+</head>
+<body>
+    
+<!-- Inclusion du menu -->
+<%- include('menu') %>
+
+<!-- Contenu de votre page home -->
+<div class="table-wrapper">
+    <h2>Liste des évenements :</h2>
+    <table id="event-table">
+        <tbody id="event-table-body">
+
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Inclusion du footer -->
+<%- include('footer') %>
+
+</body>
+</html>

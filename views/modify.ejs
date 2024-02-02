@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script/get.js" defer></script>
+    <script src="script/patch.js" defer></script>
+    <script src="script/delete.js" defer></script>
+    <%- include('link') %>
+</head>
+<body>
+    
+<!-- Inclusion du menu -->
+<%- include('menu') %>
+
+<div id="modification-message"></div>
+
+<!-- Contenu de votre page modify -->
+<div class="wrapper-modify">
+    <div class="event-wrapper-modify">
+        <h2>Liste des Événements :</h2>
+        <ul id="event-liste"></ul>
+    </div>
+
+    <div class="ticket-wrapper-modify">
+        <h2>Tickets des Événements :</h2>
+        <ul id="ticket-liste"></ul>
+    </div>
+</div>
+
+<div class="ticket-form-wrapper">
+    <h2>Formulaire de Modification de Ticket :</h2>
+    <form id="ticket-form">
+        <input type="hidden" name="id">
+        <label for="structure">Structure :</label>
+        <input type="text" name="structure" required><br>
+        <label for="adresse">Adresse :</label>
+        <input type="text" name="adresse" required><br>
+        <label for="code_postal_ville">Code Postal Ville :</label>
+        <input type="text" name="code_postal_ville" required><br>
+        <label for="sgc">SGC :</label>
+        <input type="text" name="sgc" required><br>
+        <label for="serie">Numéro de Série :</label>
+        <input type="text" name="serie" required><br>
+        <button type="submit">Modifier</button>
+    </form>
+</div>
+
+
+<!-- Inclusion du footer -->
+<%- include('footer') %>
+
+</body>
+</html>
