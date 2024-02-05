@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="script/get.js" defer></script>
     <script src="script/patch.js" defer></script>
-    <script src="script/delete.js" defer></script>
     <%- include('link') %>
 </head>
 <body>
@@ -13,7 +11,7 @@
 <!-- Inclusion du menu -->
 <%- include('menu') %>
 
-<div id="modification-message"></div>
+
 
 <!-- Contenu de votre page modify -->
 <div class="wrapper-modify">
@@ -31,7 +29,11 @@
 <div class="ticket-form-wrapper">
     <h2>Formulaire de Modification de Ticket :</h2>
     <form id="ticket-form">
+        <div id="modification-message"></div>
+
         <input type="hidden" name="id">
+        <label for="event">Événement :</label>
+        <input type="text" name="event" required><br>
         <label for="structure">Structure :</label>
         <input type="text" name="structure" required><br>
         <label for="adresse">Adresse :</label>

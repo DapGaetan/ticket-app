@@ -40,5 +40,5 @@ app.get('/delete', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Le serveur d'api écoute sur le port ${port}`);
+  console.log(`Le serveur d'api écoute sur le port http://localhost:${port}`);
 });

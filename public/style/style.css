@@ -289,11 +289,13 @@ nav{
   .ticket-form-wrapper {
     max-width: 800px; /* Ajustez la largeur maximale selon vos besoins */
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
     background-color: #f4f4f4;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     height: 60vh;
+    overflow-y: auto;
+    overflow-x: auto; 
   }
 
   .ticket-form-wrapper form {

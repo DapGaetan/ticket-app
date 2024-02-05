@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillTicketForm(ticket) {
         const form = document.getElementById('ticket-form');
         form.querySelector('input[name="id"]').value = ticket.id;
+        form.querySelector('input[name="event"]').value = ticket.event;
         form.querySelector('input[name="structure"]').value = ticket.structure;
         form.querySelector('input[name="adresse"]').value = ticket.adresse;
         form.querySelector('input[name="code_postal_ville"]').value = ticket.code_postal_ville;
@@ -60,36 +61,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Gestionnaire d'événement pour la soumission du formulaire de modification
-    document.getElementById('ticket-form').addEventListener('submit', (event) => {
-        event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+    document.getElementById('ticket-form').addEventListener('submit', (Event) => {
+        Event.preventDefault(); // Empêcher le comportement par défaut du formulaire
         updateTickets(selectedEvent); // Mettre à jour les tickets correspondants
     });
 
-    // Fonction pour mettre à jour les tickets correspondants à l'événement sélectionné
-    function updateTickets(eventName) {
-        const form = document.getElementById('ticket-form');
-        const formData = new FormData(form);
+// Fonction pour mettre à jour les tickets correspondants à l'événement sélectionné
+function updateTickets(eventName) {
+    const form = document.getElementById('ticket-form');
+    const formData = new FormData(form);
 
-        // Convertir les données du formulaire en objet JSON
-        const updatedData = {};
-        formData.forEach((value, key) => {
+    // Convertir les données du formulaire en objet JSON
+    const updatedData = {};
+    formData.forEach((value, key) => {
+        // Ignorer le champ ID lors de la sérialisation des données
+        if (key !== 'id') {
             updatedData[key] = value;
-        });
+        }
+    });
+    
+    // Envoyer les données mises à jour à l'API pour tous les tickets de l'événement
+    fetch(`/tickets/event/${eventName}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Tickets mis à jour avec succès:', data);
+        // Afficher le message de succès
+        displayMessage('Modification réussie !', 'success');
+        // Rafraîchir la liste des événements après la mise à jour
+        fetchEvents();
+    })
+    .catch(error => {
+        console.error('Erreur lors de la mise à jour des tickets:', error);
+        // Afficher le message d'erreur
+        displayMessage('Erreur lors de la modification des tickets. Veuillez réessayer.', 'error');
+    });
+}
 
-        // Envoyer les données mises à jour à l'API pour tous les tickets de l'événement
-        fetch(`/tickets/event/${eventName}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Tickets mis à jour avec succès:', data);
-            // Rafraîchir la liste des événements après la mise à jour
-            fetchEvents();
-        })
-        .catch(error => console.error('Erreur lors de la mise à jour des tickets:', error));
-    }
+// Fonction pour afficher les messages
+function displayMessage(message, type) {
+    const messageDiv = document.getElementById('modification-message');
+    messageDiv.textContent = message;
+    messageDiv.className = type; // Ajoute une classe pour le style CSS en fonction du type de message
+}
 });

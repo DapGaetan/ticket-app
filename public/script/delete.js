@@ -51,7 +51,3 @@ function deleteTickets(eventName) {
 
 // Charger les événements au chargement de la page
 document.addEventListener('DOMContentLoaded', fetchEvents);
-
-
-// ---------------------------
-
