@@ -19,11 +19,17 @@ fs.createReadStream('./database/database.csv')
     console.log('Le fichier database.csv est chargé');
   });
 
-// -Fonction sauvegarder les action dans les fichiers CSV
-function saveDataToCSV() {
-    const ticketCsv = ticketData.map(ticket => Object.values(ticket).join(',')).join('\n');
-    fs.writeFileSync('./database/database.csv', Object.keys(ticketData[0]).join(',') + '\n' + ticketCsv);
-  }
+    // -Fonction sauvegarder les action dans les fichiers CSV
+    function saveDataToCSV() {
+        if (ticketData.length > 0) {
+            const ticketCsv = ticketData.map(ticket => Object.values(ticket).join(',')).join('\n');
+            fs.writeFileSync('./database/database.csv', Object.keys(ticketData[0]).join(',') + '\n' + ticketCsv);
+        } else {
+            console.error('Aucune donnée à sauvegarder');
+        }
+        console.log(ticketData)
+    }
+
   
   // -Fonction incrémenter les ids automatiquement
   function getNextId(data) {
@@ -87,7 +93,7 @@ function saveDataToCSV() {
                 eventCount[ticket.event]++;
             }
         });
-
+        
         // Renvoyer l'objet contenant le nombre de tickets pour chaque événement
         res.json(eventCount);
     });
@@ -123,6 +129,25 @@ function saveDataToCSV() {
         saveDataToCSV();
 
         res.status(201).json({ message: `${count} tickets ont été ajoutés avec succès` });
+    });
+
+    // Endpoint pour recevoir les images
+    api.post('/upload-image', (req, res) => {
+        if (!req.files || Object.keys(req.files).length === 0) {
+            return res.status(400).send('Aucune image n\'a été téléchargée.');
+        }
+
+        // Récupérer le fichier envoyé par le client
+        const imageFile = req.files.image;
+
+        // Déplacer le fichier vers le dossier public/images
+        imageFile.mv('./public/images/' + imageFile.name, (err) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+
+            res.send('L\'image a été téléchargée avec succès.');
+        });
     });
 
 

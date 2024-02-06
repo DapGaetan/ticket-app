@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script/image.js" defer></script>
+    <%- include('link') %>
+</head>
+<body>
+    
+<!-- Inclusion du menu -->
+<%- include('menu') %>
+
+<!-- Contenu de votre page home -->
+
+<input type="text" id="rename-input" placeholder="Entrez un nouveau nom pour l'image et une terminaison (Test.jpg, Test.png, Test.gif, Test.jpeg)">
+
+<div id="drop-zone" class="drop-zone">
+    <p>Glissez et déposez une image ici</p>
+    <input type="file" id="file-input" accept="image/*">
+</div>
+<div class="image-grid">
+    <!-- Les images seront insérées ici dynamiquement -->
+</div>
+
+<!-- Inclusion du footer -->
+<%- include('footer') %>
+
+</body>
+</html>

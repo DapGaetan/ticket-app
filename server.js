@@ -1,4 +1,8 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
+const path = require('path');
+const fs = require('fs');
+
 const api = require('./api/api.js');
 
 const app = express();
@@ -11,6 +15,7 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use(express.static('public'));
+api.use(fileUpload());
 app.use('/tickets', api);
 
 
@@ -21,6 +26,8 @@ const titleTickets = "Mes tickets";
 const titleBuilder = "Création de tickets";
 const titleModify = "Modifier les tickets d'un événement";
 const titleDelete = "Supprimer des tickets";
+const titleAddImage = "Mes designs"
+const titleExport = "Exporter des tickets"
 
 // Passer le titre à votre modèle EJS
 app.get('/', (req, res) => {
@@ -38,6 +45,34 @@ app.get('/modify', (req, res) => {
 app.get('/delete', (req, res) => {
   res.render('delete', { title: titleDelete }); // Rend la vue delete.ejs
 });
+app.get('/addImage', (req, res) => {
+  res.render('image', { title: titleAddImage }); // Rend la vue image.ejs
+});
+app.get('/export', (req, res) => {
+  res.render('export', { title: titleExport }); // Rend la vue image.ejs
+});
+app.get('/images', (req, res) => {
+  const imageDir = path.join(__dirname, 'public', 'image');
+
+  // Lire le répertoire des images
+  fs.readdir(imageDir, (err, files) => {
+      if (err) {
+          console.error('Erreur lors de la lecture du répertoire des images:', err);
+          res.status(500).send('Erreur lors de la lecture du répertoire des images');
+          return;
+      }
+
+      // Filtrer les fichiers pour ne récupérer que les images
+      const imageFiles = files.filter(file => {
+          const extension = path.extname(file).toLowerCase();
+          return extension === '.jpg' || extension === '.jpeg' || extension === '.png' || extension === '.gif';
+      });
+
+      // Renvoyer la liste des noms de fichiers d'images
+      res.json(imageFiles);
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Le serveur d'api écoute sur le port http://localhost:${port}`);
