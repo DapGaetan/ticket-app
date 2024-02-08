@@ -46,7 +46,8 @@ function fetchTickets(eventName) {
                 Placement : ${ticket.placement} |
                 Numero de billet : ${ticket.numero_billet} |
                 Numero_siret : ${ticket.numero_siret} |
-                Licence : ${ticket.licence}
+                Licence : ${ticket.licence} |
+                Image : ${ticket.img}
                 `;
                 ticketList.appendChild(listItem);
             });

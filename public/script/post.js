@@ -14,6 +14,10 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
     const numero_siret = "N°Siret 200 044 048 000 11 /  PLATESV-R-2021-011694";
     const licence = "Licence 3 : PLATESV-R-2021-011694";
 
+    // Récupérer l'image sélectionnée
+    const imageFile = document.getElementById('image').files[0];
+    const img = imageFile ? imageFile.name : '';
+
     // Effectuer une requête POST vers la route '/bulk/:count' pour générer les tickets
     for (let i = 1; i <= count; i++) {
         // Créer un objet pour chaque ticket avec le numéro de billet incrémenté
@@ -27,7 +31,8 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
             placement,
             numero_billet: i, // Utiliser l'index actuel comme numéro de billet
             numero_siret,
-            licence
+            licence,
+            img
         };
 
         // Effectuer une requête POST pour chaque ticket

@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const csv = require('csv-parser');
 
@@ -6,7 +7,7 @@ const api = express();
 
 // Middleware pour parser le corps des requêtes JSON
 api.use(express.json());
-
+api.use(fileUpload());
 let ticketData = [];
 
 // Lire le fichier student
@@ -93,7 +94,7 @@ fs.createReadStream('./database/database.csv')
                 eventCount[ticket.event]++;
             }
         });
-        
+
         // Renvoyer l'objet contenant le nombre de tickets pour chaque événement
         res.json(eventCount);
     });
@@ -103,6 +104,8 @@ fs.createReadStream('./database/database.csv')
         const newTicket = {
         id: getNextId(ticketData),
         ...req.body,
+        img: req.body.img
+
         };
         ticketData.push(newTicket);
         res.status(201).json(newTicket);
@@ -141,7 +144,7 @@ fs.createReadStream('./database/database.csv')
         const imageFile = req.files.image;
 
         // Déplacer le fichier vers le dossier public/images
-        imageFile.mv('./public/images/' + imageFile.name, (err) => {
+        imageFile.mv('./public/image/' + imageFile.name, (err) => {
             if (err) {
                 return res.status(500).send(err);
             }
@@ -149,6 +152,7 @@ fs.createReadStream('./database/database.csv')
             res.send('L\'image a été téléchargée avec succès.');
         });
     });
+
 
 
     //  Route PATCH

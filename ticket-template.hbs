@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event }}</title>
+    <style>
+        /* Vos styles CSS pour le ticket */
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <h1>{{ event }}</h1>
+        <p><strong>Structure:</strong> {{ structure }}</p>
+        <p><strong>Adresse:</strong> {{ adresse }}</p>
+        <p><strong>Code Postal et Ville:</strong> {{ code_postal_ville }}</p>
+        <p><strong>SGC:</strong> {{ sgc }}</p>
+        <p><strong>Série:</strong> {{ serie }}</p>
+        <p><strong>Placement:</strong> {{ placement }}</p>
+        <p><strong>Numéro de billet:</strong> {{ numero_billet }}</p>
+        <p><strong>Numéro SIRET:</strong> {{ numero_siret }}</p>
+        <p><strong>Licence:</strong> {{ licence }}</p>
+        <img src="{{ img }}" alt="Ticket Image">
+    </div>
+</body>
+</html>

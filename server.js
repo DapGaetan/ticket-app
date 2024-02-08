@@ -1,7 +1,7 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
 const path = require('path');
 const fs = require('fs');
+const { generateAllEventTicketsHTML, loadTicketsFromCSV } = require('./hbs.js'); // Importer loadTicketsFromCSV depuis hbs.js
 
 const api = require('./api/api.js');
 
@@ -13,9 +13,7 @@ app.set('view engine', 'ejs');
 
 // Définir le répertoire des vues
 app.set('views', 'views');
-
 app.use(express.static('public'));
-api.use(fileUpload());
 app.use('/tickets', api);
 
 

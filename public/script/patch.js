@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     eventList.appendChild(listItem);
                 }
+                loadAvailableImages();
             })
             .catch(error => console.error('Erreur lors de la récupération des événements:', error));
     }
@@ -60,53 +61,67 @@ document.addEventListener('DOMContentLoaded', () => {
         form.querySelector('input[name="serie"]').value = ticket.serie;
     }
 
+    // Fonction pour charger les noms des fichiers d'images disponibles
+    function loadAvailableImages() {
+        fetch('/images') // Endpoint à définir côté serveur pour récupérer la liste des images
+            .then(response => response.json())
+            .then(data => {
+                const selectImage = document.getElementById('select-image');
+
+                // Parcourir la liste des noms d'images et les ajouter comme options à la liste déroulante
+                data.forEach(image => {
+                    const option = document.createElement('option');
+                    option.value = image;
+                    option.textContent = image;
+                    selectImage.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Erreur lors du chargement des images:', error));
+    }
+
     // Gestionnaire d'événement pour la soumission du formulaire de modification
-    document.getElementById('ticket-form').addEventListener('submit', (Event) => {
-        Event.preventDefault(); // Empêcher le comportement par défaut du formulaire
-        updateTickets(selectedEvent); // Mettre à jour les tickets correspondants
+    document.getElementById('ticket-form').addEventListener('submit', (event) => {
+        event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+
+        // Récupérer le nom de fichier de l'image sélectionnée
+        const selectedImage = document.getElementById('select-image').value;
+
+        // Mettre à jour les tickets correspondants avec l'image sélectionnée
+        updateTickets(selectedEvent, selectedImage);
     });
 
-// Fonction pour mettre à jour les tickets correspondants à l'événement sélectionné
-function updateTickets(eventName) {
-    const form = document.getElementById('ticket-form');
-    const formData = new FormData(form);
+    // Fonction pour mettre à jour les tickets correspondants à l'événement sélectionné
+    function updateTickets(eventName, selectedImage) {
+        const form = document.getElementById('ticket-form');
+        const formData = new FormData(form);
 
-    // Convertir les données du formulaire en objet JSON
-    const updatedData = {};
-    formData.forEach((value, key) => {
-        // Ignorer le champ ID lors de la sérialisation des données
-        if (key !== 'id') {
-            updatedData[key] = value;
-        }
-    });
-    
-    // Envoyer les données mises à jour à l'API pour tous les tickets de l'événement
-    fetch(`/tickets/event/${eventName}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Tickets mis à jour avec succès:', data);
-        // Afficher le message de succès
-        displayMessage('Modification réussie !', 'success');
-        // Rafraîchir la liste des événements après la mise à jour
-        fetchEvents();
-    })
-    .catch(error => {
-        console.error('Erreur lors de la mise à jour des tickets:', error);
-        // Afficher le message d'erreur
-        displayMessage('Erreur lors de la modification des tickets. Veuillez réessayer.', 'error');
-    });
-}
+        // Ajouter le nom de fichier de l'image sélectionnée à FormData
+        formData.append('img', selectedImage);
 
-// Fonction pour afficher les messages
-function displayMessage(message, type) {
-    const messageDiv = document.getElementById('modification-message');
-    messageDiv.textContent = message;
-    messageDiv.className = type; // Ajoute une classe pour le style CSS en fonction du type de message
-}
+        // Envoyer les données mises à jour à l'API pour tous les tickets de l'événement
+        fetch(`/tickets/event/${eventName}`, {
+            method: 'PUT',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Tickets mis à jour avec succès:', data);
+            // Afficher le message de succès
+            displayMessage('Modification réussie !', 'success');
+            // Rafraîchir la liste des événements après la mise à jour
+            fetchEvents();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la mise à jour des tickets:', error);
+            // Afficher le message d'erreur
+            displayMessage('Erreur lors de la modification des tickets. Veuillez réessayer.', 'error');
+        });
+    }
+
+    // Fonction pour afficher les messages
+    function displayMessage(message, type) {
+        const messageDiv = document.getElementById('modification-message');
+        messageDiv.textContent = message;
+        messageDiv.className = type; // Ajoute une classe pour le style CSS en fonction du type de message
+    }
 });
