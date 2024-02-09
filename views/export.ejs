@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="script/hbs.js" defer></script> -->
+    <script src="script/export.js" defer></script>
     <%- include('link') %>
 </head>
 <body>
@@ -12,6 +12,23 @@
 <%- include('menu') %>
 
 <!-- Contenu de votre page export -->
+<div class="wrapper-export">
+    <div class="event-wrapper-export">
+        <h2>Liste des Événements :</h2>
+        <ul id="event-list"></ul>
+    </div>
+    
+    <div class="ticket-wrapper-export">
+        <h2>Tickets des Événement :</h2>
+        <ul id="ticket-list"></ul>
+        <button id="export-button">Exporter les tickets</button> <!-- Ajout du bouton -->
+    </div>
+    
+    <div class="ticket-display-wrapper">
+        <h2>Aperçu du rendu :</h2>
+        <div id="export-message"></div>
+    </div>
+</div>
 
 
 <!-- Inclusion du footer -->

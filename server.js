@@ -1,8 +1,6 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { generateAllEventTicketsHTML, loadTicketsFromCSV } = require('./hbs.js'); // Importer loadTicketsFromCSV depuis hbs.js
-
 const api = require('./api/api.js');
 
 const app = express();
