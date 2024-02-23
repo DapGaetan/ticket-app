@@ -424,6 +424,25 @@ nav{
   margin-bottom: 15px;
 }
 
+#export-button{
+  position: sticky;
+  background-color: #0091ff;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #0091ff;
+  width: 65%;
+}
+#export-button:hover{
+  background-color: #0263ad;
+  color: whitesmoke;
+  border: 1px solid #007edf;
+}
+#export-button:active{
+  background-color: #02528f;
+  color: whitesmoke;
+  border: 1px solid #105183;
+}
 /* -- */
 /* --Footer */
   footer{

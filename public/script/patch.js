@@ -53,7 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function fillTicketForm(ticket) {
         const form = document.getElementById('ticket-form');
         form.querySelector('input[name="id"]').value = ticket.id;
-        form.querySelector('input[name="event"]').value = ticket.event;
+        
+        // Remplacer les espaces par des underscores dans le champ event
+        let event = ticket.event.replace(/\s/g, '_');
+        form.querySelector('input[name="event"]').value = event;
         form.querySelector('input[name="structure"]').value = ticket.structure;
         form.querySelector('input[name="adresse"]').value = ticket.adresse;
         form.querySelector('input[name="code_postal_ville"]').value = ticket.code_postal_ville;
@@ -89,11 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mettre à jour les tickets correspondants avec l'image sélectionnée
         updateTickets(selectedEvent, selectedImage);
     });
-
+    
     // Fonction pour mettre à jour les tickets correspondants à l'événement sélectionné
     function updateTickets(eventName, selectedImage) {
         const form = document.getElementById('ticket-form');
         const formData = new FormData(form);
+
+        // Remplacer les espaces par des underscores dans le champ event
+        formData.set('event', formData.get('event').replace(/\s/g, '_'));
 
         // Ajouter le nom de fichier de l'image sélectionnée à FormData
         formData.append('img', selectedImage);

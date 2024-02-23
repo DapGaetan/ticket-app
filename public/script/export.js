@@ -62,7 +62,9 @@ document.getElementById('export-button').addEventListener('click', () => {
 });
 
 function exportTickets(eventName) {
-    fetch(`/tickets/event/${eventName}`)
+    const encodedEventName = encodeURIComponent(eventName.replace(/\s+/g, '_')); // Encoder le nom de l'événement
+
+    fetch(`/tickets/event/${encodedEventName}`)
         .then(response => response.json())
         .then(data => {
             // Créer une variable pour stocker le contenu HTML de tous les tickets
@@ -71,32 +73,105 @@ function exportTickets(eventName) {
             // Parcourir les données de chaque ticket et les formater selon le modèle
             data.forEach(ticket => {
                 const ticketHTML = `
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>${ticket.event}</title>
-                        <style>
-                            /* Vos styles CSS pour le ticket */
-                        </style>
-                    </head>
-                    <body>
-                        <div class="ticket">
-                            <h1>${ticket.event}</h1>
-                            <p><strong>Structure:</strong> ${ticket.structure}</p>
-                            <p><strong>Adresse:</strong> ${ticket.adresse}</p>
-                            <p><strong>Code Postal et Ville:</strong> ${ticket.code_postal_ville}</p>
-                            <p><strong>SGC:</strong> ${ticket.sgc}</p>
-                            <p><strong>Série:</strong> ${ticket.serie}</p>
-                            <p><strong>Placement:</strong> ${ticket.placement}</p>
-                            <p><strong>Numéro de billet:</strong> ${ticket.numero_billet}</p>
-                            <p><strong>Numéro SIRET:</strong> ${ticket.numero_siret}</p>
-                            <p><strong>Licence:</strong> ${ticket.licence}</p>
-                            <img src="${ticket.img}" alt="Ticket Image">
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${ticket.event.replaceAll('_', ' ')}</title>
+                    <style>
+                        *{
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .ticket{
+                            background-color: red;
+                            height: fit-content;
+                            overflow: hidden;
+                            border-bottom: dashed blue;
+                            border-left: solid blue;
+                            border-right: solid blue;
+                        }
+                        .top{
+                            display : flex;
+                            justify-content : space-between;
+                            align-content   : center;
+                            border-top: solid blue;
+                            border-bottom: solid blue;
+                        }
+                        h1,h2,h3{
+                            font-size: 1.5rem;
+                            color: rgb(48, 48, 48);
+                            padding: 20px;
+                        }
+                        h1{
+                            border-left: solid blue;
+                            border-right: solid blue;
+                        }
+                        .content{
+                            display : flex;
+                            justify-content : space-between;
+                            align-content   : center;
+                            text-align: center;
+                            height: fit-content;
+                        }
+                        .center p{
+                            border-left:  solid blue;
+                            border-right:  solid blue;
+                            border-bottom:  solid blue;
+                            padding: 0;
+                        }
+                        img{
+                            height: 100%;
+                            width: 650px;
+                            border-left: solid blue;
+                            border-right: solid blue;
+                            /* background-image: url(./public/image/${ticket.img});
+                            background-size: cover;
+                            background-repeat: no-repeat; */
+                        }
+                        .left{
+                            padding: 20px;
+                        }
+                        .right{
+                            padding: 20px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="ticket">
+                        <div class="top">
+                            <h2>${ticket.structure}</h2>
+                            <h1>${ticket.event.replaceAll('_', ' ')}</h1>
+                            <h3>${ticket.structure}</h3>
                         </div>
-                    </body>
-                    </html>
+                        <div class="content">
+                            <div class="left">
+                                <p>${ticket.adresse}</p>
+                                <p>${ticket.code_postal_ville}</p>
+                                <p>${ticket.sgc}</p>
+                                <p>${ticket.serie}</p>
+                                <p>${ticket.placement}</p>
+                                <p>Billet N°${ticket.numero_billet}</p>
+                                <p>${ticket.numero_siret}</p>
+                            </div>
+                            <div class="center">
+                                <p>Billet N°${ticket.numero_billet}</p>
+                                <img src="./public/image/${ticket.img}" alt="">
+                            </div>
+                            <div class="right">
+                                <p>${ticket.adresse}</p>
+                                <p>${ticket.code_postal_ville}</p>
+                                <p>${ticket.licence}</p>
+                                <p>${ticket.serie}</p>
+                                <p>${ticket.placement}</p>
+                                <p>Billet N°${ticket.numero_billet}</p>
+                                <p>${ticket.numero_siret}</p>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>
                 `;
                 ticketsHTML += ticketHTML; // Ajouter le contenu du ticket au contenu global
             });
@@ -121,4 +196,3 @@ function exportTickets(eventName) {
         })
         .catch(error => console.error(`Erreur lors de la récupération des tickets pour l'événement ${eventName}:`, error));
 }
-

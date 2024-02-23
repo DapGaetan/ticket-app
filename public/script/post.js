@@ -4,7 +4,7 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
     const count = parseInt(document.getElementById('count').value); // Récupérer le nombre de tickets à générer
 
     // Récupérer les valeurs des autres champs
-    const event = document.getElementById('event').value;
+    let event = document.getElementById('event').value;
     const structure = document.getElementById('structure').value;
     const adresse = document.getElementById('adresse').value;
     const code_postal_ville = document.getElementById('code_postal_ville').value;
@@ -13,6 +13,9 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
     const placement = document.getElementById('placement').value;
     const numero_siret = "N°Siret 200 044 048 000 11 /  PLATESV-R-2021-011694";
     const licence = "Licence 3 : PLATESV-R-2021-011694";
+
+    // Remplacer les espaces par des underscores dans le champ event
+    event = event.replace(/\s/g, '_');
 
     // Récupérer l'image sélectionnée
     const imageFile = document.getElementById('image').files[0];

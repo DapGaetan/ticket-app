@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
     <script src="script/export.js" defer></script>
     <%- include('link') %>
 </head>
@@ -21,13 +22,8 @@
     <div class="ticket-wrapper-export">
         <h2>Tickets des Événement :</h2>
         <ul id="ticket-list"></ul>
-        <button id="export-button">Exporter les tickets</button> <!-- Ajout du bouton -->
     </div>
-    
-    <div class="ticket-display-wrapper">
-        <h2>Aperçu du rendu :</h2>
-        <div id="export-message"></div>
-    </div>
+    <button id="export-button"><i class="fa-solid fa-download"></i> Exporter les tickets</button>
 </div>
 
 

@@ -44,6 +44,17 @@ app.get('/delete', (req, res) => {
 app.get('/addImage', (req, res) => {
   res.render('image', { title: titleAddImage }); // Rend la vue image.ejs
 });
+// app.get('/ticket-template', (req, res) => {
+//   // Lire le contenu du fichier ticket-template.hbs
+//   fs.readFile('ticket-template.hbs', 'utf8', (err, data) => {
+//     if (err) {
+//       console.error('Erreur lors de la lecture du fichier ticket-template.hbs :', err);
+//       res.status(500).send('Erreur lors de la lecture du modèle Handlebars');
+//       return;
+//     }
+//     res.send(data);
+//   });
+// });
 app.get('/export', (req, res) => {
   res.render('export', { title: titleExport }); // Rend la vue image.ejs
 });
