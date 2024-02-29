@@ -76,77 +76,41 @@ function exportTickets(eventName) {
                 <!DOCTYPE html>
                 <html lang="en">
                 <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${ticket.event.replaceAll('_', ' ')}</title>
-                    <style>
-                        *{
-                            margin: 0;
-                            padding: 0;
-                        }
-                        .ticket{
-                            background-color: red;
-                            height: fit-content;
-                            overflow: hidden;
-                            border-bottom: dashed blue;
-                            border-left: solid blue;
-                            border-right: solid blue;
-                        }
-                        .top{
-                            display : flex;
-                            justify-content : space-between;
-                            align-content   : center;
-                            border-top: solid blue;
-                            border-bottom: solid blue;
-                        }
-                        h1,h2,h3{
-                            font-size: 1.5rem;
-                            color: rgb(48, 48, 48);
-                            padding: 20px;
-                        }
-                        h1{
-                            border-left: solid blue;
-                            border-right: solid blue;
-                        }
-                        .content{
-                            display : flex;
-                            justify-content : space-between;
-                            align-content   : center;
-                            text-align: center;
-                            height: fit-content;
-                        }
-                        .center p{
-                            border-left:  solid blue;
-                            border-right:  solid blue;
-                            border-bottom:  solid blue;
-                            padding: 0;
-                        }
-                        img{
-                            height: 100%;
-                            width: 650px;
-                            border-left: solid blue;
-                            border-right: solid blue;
-                            /* background-image: url(./public/image/${ticket.img});
-                            background-size: cover;
-                            background-repeat: no-repeat; */
-                        }
-                        .left{
-                            padding: 20px;
-                        }
-                        .right{
-                            padding: 20px;
-                        }
-                    </style>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${ticket.event.replaceAll('_', ' ')}</title>
+                <style>
+                    body {
+                        margin: 0;
+                        padding: 0;
+                    }
+                
+                    .ticket {
+                        width: 210mm; /* Largeur pour le format A4 */
+                        padding: 20px;
+                        border: 2px solid blue;
+                        margin: auto;
+                    }
+                    .content {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        text-align: center;
+                    }
+                    h1,h2,h3 {
+                        font-size: 1rem;
+                    }
+                    img {
+                        width: 100%;
+                        height: 80%;
+                    }
+                </style>
                 </head>
                 <body>
                     <div class="ticket">
-                        <div class="top">
-                            <h2>${ticket.structure}</h2>
-                            <h1>${ticket.event.replaceAll('_', ' ')}</h1>
-                            <h3>${ticket.structure}</h3>
-                        </div>
                         <div class="content">
                             <div class="left">
+                                <h2>${ticket.structure}</h2>
                                 <p>${ticket.adresse}</p>
                                 <p>${ticket.code_postal_ville}</p>
                                 <p>${ticket.sgc}</p>
@@ -156,10 +120,12 @@ function exportTickets(eventName) {
                                 <p>${ticket.numero_siret}</p>
                             </div>
                             <div class="center">
+                                <h1>${ticket.event.replaceAll('_', ' ')}</h1>
                                 <p>Billet N°${ticket.numero_billet}</p>
-                                <img src="./public/image/${ticket.img}" alt="">
+                                <img src="/image/${ticket.img}" alt="">
                             </div>
                             <div class="right">
+                                <h3>${ticket.structure}</h3>
                                 <p>${ticket.adresse}</p>
                                 <p>${ticket.code_postal_ville}</p>
                                 <p>${ticket.licence}</p>
@@ -170,29 +136,17 @@ function exportTickets(eventName) {
                             </div>
                         </div>
                     </div>
-                </body>
-                </html>
+        </body>
+        </html>
                 `;
                 ticketsHTML += ticketHTML; // Ajouter le contenu du ticket au contenu global
             });
 
-            // Créer un objet Blob à partir du contenu HTML
-            const blob = new Blob([ticketsHTML], { type: 'text/html' });
-
-            // Créer une URL objet à partir du Blob
-            const url = URL.createObjectURL(blob);
-
-            // Créer un lien de téléchargement
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'export-'+ `${eventName}` +'.html';
-
-            // Ajouter le lien au document et simuler un clic
-            document.body.appendChild(a);
-            a.click();
-
-            // Nettoyer l'URL objet
-            URL.revokeObjectURL(url);
+            // Utiliser html2pdf pour générer le PDF
+            html2pdf()
+                .from(ticketsHTML)
+                .toPdf()
+                .save('export-' + eventName + '.pdf');
         })
         .catch(error => console.error(`Erreur lors de la récupération des tickets pour l'événement ${eventName}:`, error));
 }
