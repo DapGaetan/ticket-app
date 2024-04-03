@@ -5,16 +5,12 @@ function fetchEvents() {
         .then(response => response.json())
         .then(data => {
             const eventList = document.getElementById('event-list');
-            // Ajouter les événements à la liste
             for (const event in data) {
                 const listItem = document.createElement('li');
                 listItem.textContent = `${event} (${data[event]} tickets)`;
-                // Ajouter un écouteur d'événement pour afficher les tickets au clic
                 listItem.addEventListener('click', () => {
-                    // Retirer la classe "selected" de tous les éléments de liste
                     const selectedItems = document.querySelectorAll('#event-list li.selected');
                     selectedItems.forEach(item => item.classList.remove('selected'));
-                    // Ajouter la classe "selected" à l'élément de liste sélectionné
                     listItem.classList.add('selected');
                     fetchTickets(event);
                 });
@@ -29,8 +25,7 @@ function fetchTickets(eventName) {
         .then(response => response.json())
         .then(data => {
             const ticketList = document.getElementById('ticket-list');
-            ticketList.innerHTML = ''; // Effacer les tickets précédents
-            // Ajouter les tickets à la liste
+            ticketList.innerHTML = '';
             data.forEach(ticket => {
                 const listItem = document.createElement('li');
                 listItem.textContent = `
@@ -67,11 +62,12 @@ function exportTickets(eventName) {
     fetch(`/tickets/event/${encodedEventName}`)
         .then(response => response.json())
         .then(data => {
-            // Créer une variable pour stocker le contenu HTML de tous les tickets
             let ticketsHTML = '';
+            let ticketCount = data.length;
+            const ticketsPerFile = 200;
+            const fileCount = Math.ceil(ticketCount / ticketsPerFile);
 
-            // Parcourir les données de chaque ticket et les formater selon le modèle
-            data.forEach(ticket => {
+            data.forEach((ticket, index) => {
                 const ticketHTML = `
                 <!DOCTYPE html>
                 <html lang="en">
@@ -139,14 +135,17 @@ function exportTickets(eventName) {
         </body>
         </html>
                 `;
-                ticketsHTML += ticketHTML; // Ajouter le contenu du ticket au contenu global
-            });
+                ticketsHTML += ticketHTML;
 
-            // Utiliser html2pdf pour générer le PDF
-            html2pdf()
-                .from(ticketsHTML)
-                .toPdf()
-                .save('export-' + eventName + '.pdf');
+                if ((index + 1) % ticketsPerFile === 0 || index === ticketCount - 1) {
+                    const fileIndex = Math.floor(index / ticketsPerFile) + 1;
+                    html2pdf()
+                        .from(ticketsHTML)
+                        .toPdf()
+                        .save(`export-${eventName}-${fileIndex}.pdf`);
+                    ticketsHTML = '';
+                }
+            });
         })
         .catch(error => console.error(`Erreur lors de la récupération des tickets pour l'événement ${eventName}:`, error));
 }

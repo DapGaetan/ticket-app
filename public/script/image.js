@@ -59,14 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const imageGrid = document.querySelector('.image-grid');
 
-    // Récupérer la liste des noms de fichiers d'images depuis le serveur
     fetch('/images')
         .then(response => response.json())
         .then(imageFiles => {
-            // Boucler à travers la liste des noms de fichiers d'images pour créer les balises d'images
             imageFiles.forEach(imageFile => {
                 const img = document.createElement('img');
-                img.src = `/image/${imageFile}`; // Le chemin relatif pour les images statiques
+                img.src = `/image/${imageFile}`;
                 img.alt = imageFile;
                 imageGrid.appendChild(img);
             });
