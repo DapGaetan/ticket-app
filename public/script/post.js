@@ -18,7 +18,6 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
     const imageFile = document.getElementById('image').files[0];
     const img = imageFile ? imageFile.name : '';
 
-    // Afficher l'écran de chargement
     document.getElementById('loading-overlay').style.display = 'flex';
 
     for (let i = 1; i <= count; i++) {
@@ -53,7 +52,6 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
             alert('Une erreur est survenue lors de la génération des tickets. Veuillez réessayer.');
         })
         .finally(() => {
-            // Masquer l'écran de chargement une fois que la requête est terminée
             if (i === count) {
                 document.getElementById('loading-overlay').style.display = 'none';
                 alert(`${count} tickets ont été générés avec succès.`);

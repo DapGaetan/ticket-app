@@ -251,7 +251,7 @@ nav{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
     overflow-x: auto;
-    height: 10vh;
+    height: 20vh;
   }
 
   .ticket-wrapper-modify {
@@ -367,7 +367,7 @@ nav{
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 50%;
+    width: 52%;
     display: block;
   }
 

@@ -57,7 +57,6 @@ document.getElementById('export-button').addEventListener('click', () => {
 });
 
 function exportTickets(eventName) {
-    // Afficher l'écran de chargement
     document.getElementById('export-loading-overlay').style.display = 'flex';
 
     const encodedEventName = encodeURIComponent(eventName.replace(/\s+/g, '_')); // Encoder le nom de l'événement
@@ -150,12 +149,10 @@ function exportTickets(eventName) {
                 }
             });
 
-            // Masquer l'écran de chargement une fois que l'exportation est terminée
             document.getElementById('export-loading-overlay').style.display = 'none';
         })
         .catch(error => {
             console.error(`Erreur lors de la récupération des tickets pour l'événement ${eventName}:`, error);
-            // En cas d'erreur, assurez-vous de masquer également l'écran de chargement
             document.getElementById('export-loading-overlay').style.display = 'none';
         });
 }
