@@ -59,26 +59,32 @@ document.getElementById('export-button').addEventListener('click', () => {
 function exportTickets(eventName) {
     document.getElementById('export-loading-overlay').style.display = 'flex';
 
-    const encodedEventName = encodeURIComponent(eventName.replace(/\s+/g, '_')); // Encoder le nom de l'événement
+    const encodedEventName = encodeURIComponent(eventName.replace(/\s+/g, '_'));
 
     fetch(`/tickets/event/${encodedEventName}`)
         .then(response => response.json())
         .then(data => {
             let ticketCount = data.length;
-            const ticketsPerPage = 4; // Nombre maximal de tickets par page
-            const ticketsPerFile = 45 * ticketsPerPage; // Environ 50 pages par fichier
-            const fileCount = Math.ceil(ticketCount / ticketsPerFile); // Nombre total de fichiers nécessaires
-            let fileIndex = 1; // Index du fichier PDF
+            const ticketsPerPage = 4;
+            const ticketHeight = 65 + 20 + 2;
+            const pageHeight = 297;
+            const totalTicketsHeight = ticketsPerPage * ticketHeight;
+            const marginHeight = (pageHeight - totalTicketsHeight) / (ticketsPerPage - 1);
+
+            const ticketsPerFile = 45 * ticketsPerPage;
+            const fileCount = Math.ceil(ticketCount / ticketsPerFile);
+            let fileIndex = 1;
 
             for (let i = 0; i < fileCount; i++) {
                 let start = i * ticketsPerFile;
                 let end = Math.min(start + ticketsPerFile, ticketCount);
 
-                let ticketsHTML = ''; // HTML des tickets à exporter
+                let ticketsHTML = '<div class="ticket-grid">';
 
                 for (let j = start; j < end; j++) {
                     const ticket = data[j];
                     const ticketHTML = `
+                    
                     <!DOCTYPE html>
                     <html lang="en">
                     <head>
@@ -86,33 +92,50 @@ function exportTickets(eventName) {
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>${ticket.event.replaceAll('_', ' ')}</title>
                     <style>
-                        body {
-                            margin: 0;
-                            padding: 0;
-                        }
+                    body {
+                        margin: 0;
+                        padding: 0;
+                    }
                     
+                    .ticket-grid {
+                        display: grid;
+                        grid-template-columns: repeat(1, 1fr);
+                        padding: 0;
+                    }
+                    
+                    .ticket {
+                        width: 210mm; /* Largeur pour le format A4 */
+                        height: 65mm;
+                        padding: 20px;
+                        border: 2px solid blue;
+                        box-sizing: border-box; /* Inclure le padding et la bordure dans la hauteur totale */
+                    }
+                    
+                    .content {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+                        text-align: center;
+                    }
+                    
+                    h1, h2, h3 {
+                        font-size: 0.9rem;
+                    }
+                    
+                    p {
+                        font-size: 0.7rem;
+                    }
+                    
+                    img {
+                        width: 100%;
+                        height: 80%;
+                    }
+
+                    @media print {
                         .ticket {
-                            width: 210mm; /* Largeur pour le format A4 */
-                            padding: 20px;
-                            border: 2px solid blue;
-                            margin: auto;
+                            page-break-inside: avoid; /* Éviter la coupure des tickets sur plusieurs pages */
                         }
-                        .content {
-                            display: flex;
-                            flex-direction: row;
-                            justify-content: space-around;
-                            text-align: center;
-                        }
-                        h1,h2,h3 {
-                            font-size: 0.9rem;
-                        }
-                        p{
-                            font-size: 0.7rem;
-                        }
-                        img {
-                            width: 100%;
-                            height: 80%;
-                        }
+                    }                    
                     </style>
                     </head>
                     <body>
@@ -145,23 +168,37 @@ function exportTickets(eventName) {
                                 </div>
                             </div>
                         </div>
-            </body>
-            </html>
+                    </body>
+                    </html>
                     `;
                     ticketsHTML += ticketHTML;
 
-                    // Ajouter un saut de page après chaque groupe de 4 tickets
+                    if ((j + 1 - start) % ticketsPerPage !== 0 && j !== end - 1) {
+                        ticketsHTML += `<div style="height: ${marginHeight}mm; width: 100%;"></div>`;
+                    }
+
                     if ((j + 1 - start) % ticketsPerPage === 0 && j !== end - 1) {
-                        ticketsHTML += '<div style="height: 132px; width: 100%;"></div>';
+                        ticketsHTML += '<div style="page-break-before: always;"></div>';
                     }
                 }
 
+                ticketsHTML += '</div>';
+
+                const opt = {
+                    margin:       [0, 0],
+                    filename:     `export-${eventName}-${fileIndex}.pdf`,
+                    image:        { type: 'jpeg', quality: 1 },
+                    html2canvas:  { scale: 1 },
+                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                };
+
                 html2pdf()
                     .from(ticketsHTML)
+                    .set(opt)
                     .toPdf()
-                    .save(`export-${eventName}-${fileIndex}.pdf`);
+                    .save();
 
-                fileIndex++; // Passer au prochain fichier
+                fileIndex++;
             }
 
             document.getElementById('export-loading-overlay').style.display = 'none';
