@@ -2,3 +2,4 @@ node_modules
 database/database.csv
 public/image/
 test.html
+../server.js

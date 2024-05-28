@@ -1,41 +1,33 @@
-<div class="title-bar">
-    <button id="minimize">_</button>
-    <button id="maximize">[ ]</button>
-    <button id="close">X</button>
-</div>
-
-<nav>
-    <ul id="menu-accordeon">
-        <li><a href="#"><i class="fa-solid fa-bars"></i></a>
-           <ul>
-              <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
-              <li><a href="/ticket"><i class="fa-solid fa-ticket"></i></a></li>
-              <li><a href="/build"><i class="fa-solid fa-briefcase"></i></a></li>
-              <li><a href="/modify"><i class="fa-solid fa-hammer"></i></a></li>
-              <li><a href="/addImage"><i class="fa-solid fa-image"></i></a></li>
-              <li><a href="/export"><i class="fa-solid fa-folder"></i></a></li>
-            </ul>
-        </li>
-    </ul>
-
-    <h1><%= title %></h1>
-</nav>
-<div class="space">
-
-</div>
-
-<script>
-    const { ipcRenderer } = require('electron');
-
-    document.getElementById('close').addEventListener('click', () => {
-            ipcRenderer.send('close-app');
-        });
-
-        document.getElementById('minimize').addEventListener('click', () => {
-            ipcRenderer.send('minimize-app');
-        });
-
-        document.getElementById('maximize').addEventListener('click', () => {
-            ipcRenderer.send('maximize-app');
-        });
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <script defer src="/script/app.js"></script>
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="title-bar">
+        <button id="minimize"><i class="fa-solid fa-window-minimize"></i></button>
+        <button id="maximize"><i class="fa-regular fa-window-maximize"></i></button>
+        <button id="close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav>
+        <ul id="menu-accordeon">
+            <li><a href="#"><i class="fa-solid fa-bars"></i></a>
+                <ul>
+                    <li><a href="/"><i class="fa-solid fa-house"></i></a></li>
+                    <li><a href="/ticket"><i class="fa-solid fa-ticket"></i></a></li>
+                    <li><a href="/build"><i class="fa-solid fa-briefcase"></i></a></li>
+                    <li><a href="/modify"><i class="fa-solid fa-hammer"></i></a></li>
+                    <li><a href="/addImage"><i class="fa-solid fa-image"></i></a></li>
+                    <li><a href="/export"><i class="fa-solid fa-folder"></i></a></li>
+                </ul>
+            </li>
+        </ul>
+        <h1><%= title %></h1>
+    </nav>
+    <div class="space"></div>
+</body>
+</html>

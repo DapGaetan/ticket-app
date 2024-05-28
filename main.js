@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -82,6 +82,8 @@ function createWindow() {
   });
 
   mainWindow.loadURL('http://localhost:3000'); // Charger l'application Express dans la fenêtre Electron
+  mainWindow.webContents.openDevTools();
+
 
   mainWindow.on('closed', function () {
     mainWindow = null;
@@ -117,8 +119,8 @@ ipcMain.on('minimize-app', () => {
 
 ipcMain.on('maximize-app', () => {
   if (mainWindow.isMaximized()) {
-    mainWindow.unmaximize();
+      mainWindow.unmaximize();
   } else {
-    mainWindow.maximize();
+      mainWindow.maximize();
   }
 });
