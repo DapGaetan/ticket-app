@@ -11,7 +11,6 @@ app.set('views', 'views');
 app.use(express.static('public'));
 app.use('/tickets', api);
 
-
 // --Route pages
 // Définir les titres
 const titleHome = "Accueil";

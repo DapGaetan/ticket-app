@@ -8,11 +8,13 @@
     <title><%= title %></title>
 </head>
 <body>
-    <div class="title-bar">
-        <button id="minimize"><i class="fa-solid fa-window-minimize"></i></button>
-        <button id="maximize"><i class="fa-regular fa-window-maximize"></i></button>
-        <button id="close"><i class="fa-solid fa-xmark"></i></button>
-    </div>
+    <% if (isWindows) { %>
+        <div class="title-bar">
+            <button id="minimize"><i class="fa-solid fa-window-minimize"></i></button>
+            <button id="maximize"><i class="fa-regular fa-window-maximize"></i></button>
+            <button id="close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    <% } %>
     <nav>
         <ul id="menu-accordeon">
             <li><a href="#"><i class="fa-solid fa-bars"></i></a>

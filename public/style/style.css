@@ -1,10 +1,9 @@
-/* --Base */
 *{
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
 }
-/* Style pour la barre de titre */
+/* Base */
 .title-bar {
   display: flex;
   justify-content: flex-end;
@@ -17,7 +16,6 @@
   -webkit-app-region: drag;
 }
 
-/* Style pour les boutons de la barre de titre */
 .title-bar button {
   -webkit-app-region: no-drag;
   background-color: #69beff25;
@@ -38,7 +36,6 @@
   background-color: #9999994f;
 }
 
-/* Style pour le bouton de fermeture */
 .title-bar button#close {
   background-color: #ff351f;
   margin-right: 20px;
@@ -53,9 +50,9 @@
 }
 /* --Menu */
 nav{
-    display: flex; /* Utilisation de Flexbox pour aligner les éléments horizontalement */
-    align-items: center; /* Centrer verticalement les éléments */
-    color: rgb(0, 0, 0); /* Couleur du texte */
+    display: flex;
+    align-items: center;
+    color: rgb(0, 0, 0);
     position: fixed;
     padding-bottom: 80px;
     margin-top: 50px;
