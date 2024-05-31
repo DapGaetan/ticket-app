@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self';">
     <link rel="stylesheet" href="/style.css">
     <script defer src="/script/app.js"></script>
     <title><%= title %></title>
@@ -15,7 +16,7 @@
             <button id="close"><i class="fa-solid fa-xmark"></i></button>
         </div>
     <% } %>
-    <nav>
+    <nav >
         <ul id="menu-accordeon">
             <li><a href="#"><i class="fa-solid fa-bars"></i></a>
                 <ul>
@@ -28,7 +29,7 @@
                 </ul>
             </li>
         </ul>
-        <h1><%= title %></h1>
+        <h1 id="h1-nav"><%= title %></h1>
     </nav>
     <div class="space"></div>
 </body>

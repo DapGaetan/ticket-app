@@ -3,6 +3,21 @@
     padding: 0;
     font-family: 'Montserrat', sans-serif;
 }
+
+/* hover menu */
+
+.nav-hover {
+  background: rgb(227,227,227);
+  background: -moz-linear-gradient(90deg, rgb(245, 245, 245) 0%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(245, 245, 245) 0%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 100%);
+  background: linear-gradient(90deg, rgba(245, 245, 245) 0%, rgba(255,255,255,1) 48%, rgba(255,255,255,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e3e3e3",endColorstr="#ffffff",GradientType=1);
+}
+.menu-moving{
+  transition-duration: 1s;
+  margin-left: 17% !important;
+  box-sizing: border-box;
+}
 /* Base */
 .title-bar {
   display: flex;
@@ -56,6 +71,13 @@ nav{
     position: fixed;
     padding-bottom: 80px;
     margin-top: 50px;
+
+    /* &:hover {
+      background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+      padding-right: 35%;
+      padding-bottom: 100%;
+    } */
+    
 }
 #menu-accordeon {
     padding: 10px 20px;
@@ -63,6 +85,7 @@ nav{
     list-style:none;
     text-align: center;
     width: 50px;
+
   }
   #menu-accordeon ul {
     padding:0;
@@ -128,14 +151,14 @@ nav{
 
   /* Wrapper du tableau */
   .table-wrapper {
-    margin: 80px auto; /* Pour centrer horizontalement */
+    margin: 80px auto;
     width: 70%;
     background-color: #f8f8f8;
     border: 0.5px solid rgb(215, 215, 215);
     border-radius: 25px;
-    overflow-x: auto; /* Pour gérer le défilement horizontal si nécessaire */
-    max-height: 80vh; /* Hauteur maximale du wrapper en pourcentage de la hauteur de la vue */
-    overflow-y: auto; /* Activer la barre de défilement verticale si nécessaire */
+    overflow-x: auto;
+    max-height: 80vh;
+    overflow-y: auto;
   }
 
   /* Tableau */
@@ -229,7 +252,7 @@ nav{
   /* -- */
   /* --Builder */
   .container {
-    max-width: 800px; /* Ajustez la largeur maximale selon vos besoins */
+    max-width: 800px;
     margin: 80px auto;
     padding: 20px;
     background-color: #f4f4f4;
@@ -241,15 +264,16 @@ nav{
   }
 
   form {
-    display: grid;
-    grid-gap: 3px;
-    padding: 0;
-    margin: 0;
-    height: fit-content;
+    padding: 30px;
+    height: 52vh;
   }
 
   label {
     font-weight: bold;
+  }
+
+  input{
+    margin-bottom: 10px;
   }
 
   input[type="text"],

@@ -10,6 +10,7 @@ const port = 3000;
 
 // Détecter le système d'exploitation
 const isWindows = os.platform() === 'win32';
+const isMac = os.platform() === 'darwin';
 
 expressApp.set('view engine', 'ejs');
 expressApp.set('views', path.join(__dirname, 'views'));
@@ -78,6 +79,14 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:3000'); // Charger l'application Express dans la fenêtre Electron
     // mainWindow.webContents.openDevTools();
 
+    mainWindow.on('close', (event) => {
+        if (isMac) {
+            app.quit(); // Quitter l'application sur macOS
+        } else {
+            mainWindow = null;
+        }
+    });
+
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
@@ -103,7 +112,11 @@ app.on('activate', function () {
 
 // Écouter les événements IPC pour les boutons personnalisés
 ipcMain.on('close-app', () => {
-    app.quit();
+    if (isMac) {
+        app.quit(); // Quitter l'application sur macOS
+    } else {
+        mainWindow.close();
+    }
 });
 
 ipcMain.on('minimize-app', () => {

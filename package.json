@@ -13,7 +13,7 @@
     "make": "electron-forge make"
   },
   "build": {
-    "appId": "com.example.yourapp",
+    "appId": "app.ticket.generator",
     "mac": {
       "target": [
         "dmg",
