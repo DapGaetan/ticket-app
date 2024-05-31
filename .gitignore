@@ -4,3 +4,5 @@ public/image/
 test.html
 ../server.js
 out/
+.env.local
+dist

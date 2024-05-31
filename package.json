@@ -4,11 +4,13 @@
   "description": "Application de création de ticket",
   "main": "main.js",
   "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "build": "npx electron-builder",
+    "release": "npx electron-builder --publish=always",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package-win": "electron-packager . --platform=win32 --arch=x64 --out=dist --overwrite",
     "package-mac": "electron-packager . Ticket --platform=darwin --arch=x64 --out=dist --overwrite",
-    "build": "electron-builder",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -31,7 +33,14 @@
         "deb"
       ],
       "icon": "./ico/icon.png"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "DapGaetan",
+        "repo": "ticket-app"
+      }
+    ]
   },
   "author": "Dapvril Gaëtan - Service informatique D'Osartis-Marquion",
   "license": "ISC",
@@ -44,6 +53,8 @@
     "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
+    "electron-builder": "^23.0.0",
+    "electron": "^30.0.8",
     "@electron-forge/cli": "^7.4.0",
     "@electron-forge/maker-deb": "^7.4.0",
     "@electron-forge/maker-rpm": "^7.4.0",
@@ -51,7 +62,6 @@
     "@electron-forge/maker-zip": "^7.4.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
     "@electron-forge/plugin-fuses": "^7.4.0",
-    "@electron/fuses": "^1.8.0",
-    "electron": "^30.0.8"
-  }
+    "@electron/fuses": "^1.8.0"
+  }  
 }
