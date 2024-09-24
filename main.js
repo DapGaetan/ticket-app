@@ -1,14 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, autoUpdater } = require('electron');
 const express = require('express');
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const api = require('./api/api.js');
 
+// const server = 'https://update.electronjs.org'; décommenter 102 et 103 aussi 
+// const feed = `${server}/DapGaetan/ticket-app/${process.platform}-${process.arch}/${app.getVersion()}`;
+
 const expressApp = express();
 const port = 3000;
 
-// Détecter le système d'exploitation
 const isWindows = os.platform() === 'win32';
 const isMac = os.platform() === 'darwin';
 
@@ -17,7 +19,6 @@ expressApp.set('views', path.join(__dirname, 'views'));
 expressApp.use(express.static(path.join(__dirname, 'public')));
 expressApp.use('/tickets', api);
 
-// Passer le titre et la variable isWindows au modèle EJS
 expressApp.get('/', (req, res) => {
     res.render('home', { title: "Accueil", isWindows });
 });
@@ -68,20 +69,20 @@ function createWindow() {
         minHeight: 900,
         closable: true,
         darkTheme: false,
-        frame: !isWindows, // Utiliser le cadre natif sur macOS
+        frame: !isWindows,
         icon: path.join(__dirname, './ico/icon.ico'),
         webPreferences: {
-            nodeIntegration: true, // Activer l'intégration de Node.js pour accéder aux modules du côté client
+            nodeIntegration: true,
             contextIsolation: false,
         }
     });
 
-    mainWindow.loadURL('http://localhost:3000'); // Charger l'application Express dans la fenêtre Electron
+    mainWindow.loadURL('http://localhost:3000');
     // mainWindow.webContents.openDevTools();
 
     mainWindow.on('close', (event) => {
         if (isMac) {
-            app.quit(); // Quitter l'application sur macOS
+            app.quit();
         } else {
             mainWindow = null;
         }
@@ -96,7 +97,11 @@ expressApp.listen(port, () => {
     console.log(`Le serveur d'api écoute sur le port http://localhost:${port}`);
 });
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+    createWindow();
+    // autoUpdater.setFeedURL(feed);
+    // autoUpdater.checkForUpdatesAndNotify();
+});
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
@@ -110,10 +115,9 @@ app.on('activate', function () {
     }
 });
 
-// Écouter les événements IPC pour les boutons personnalisés
 ipcMain.on('close-app', () => {
     if (isMac) {
-        app.quit(); // Quitter l'application sur macOS
+        app.quit();
     } else {
         mainWindow.close();
     }

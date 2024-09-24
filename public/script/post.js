@@ -8,10 +8,10 @@ document.getElementById('ticket-form').addEventListener('submit', function(Event
     const adresse = document.getElementById('adresse').value;
     const code_postal_ville = document.getElementById('code_postal_ville').value;
     const sgc = "SGC - ARRAS";
-    const serie = "Série : A";
+    const serie = "Série : A - PLEIN TARIF";
     const placement = document.getElementById('placement').value;
-    const numero_siret = "N°Siret 200 044 048 000 11 /  PLATESV-R-2021-011694";
-    const licence = "Licence 3 : PLATESV-R-2021-011694";
+    const numero_siret = "N°Siret 200 044 048 000 11";
+    const licence = "Licence 3 : PLATESV-R-2021-012094";
 
     event = event.replace(/\s/g, '_');
 

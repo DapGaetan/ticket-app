@@ -1,8 +1,9 @@
 node_modules
-database/database.csv
+/database/database.csv
 public/image/
 test.html
 ../server.js
 out/
 .env.local
 dist
+.github
